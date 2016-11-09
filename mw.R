@@ -64,7 +64,7 @@ mw<-function(ps){
     } else if (d=="V"){
       e<-117
     } else {
-      e<-0
+      e<-110
     }
     f<-f+e
   }
