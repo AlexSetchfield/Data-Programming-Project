@@ -71,4 +71,4 @@ mw<-function(ps){
   g<-round((f+18.2)/1000,2)
   print(paste("Molecular Weight roughly =",g,"kDa"))
 }
-mw("RNBC")
+
