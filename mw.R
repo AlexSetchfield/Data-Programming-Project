@@ -1,4 +1,4 @@
-#' protein MW preditor
+#' protein MW predictor
 #'
 #' This function allows you to calculate the molecular weight of protein 
 #' @param ps        amino acid sequence in a string form
