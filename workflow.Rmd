@@ -1,0 +1,188 @@
+---
+title: "Functions in Package"
+author: "Rui Huang"
+date: '`r Sys.Date()`'
+output: html_document
+vignette: |
+  %\VignetteIndexEntry{Vignette Title} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+---
+The aim of creating this package is making the workflow of our group project easier. The functions can solve the common problem in biological experiments such as 
+
+- making stock solution
+- making buffer solution
+- predicting OD600 of bacteria culture
+- predicting molecular weight of protein
+- convert DNA sequence to amino acid sequence etc.
+
+## DNA to amino acid converter
+`DNAaa()` is the function converting DNA sequence to amino acid sequence based on the [__standard DNA condon table__(hyperlink)](https://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG1). The unrecognized DNA codon will be shown as *. 
+
+If you want to find the amino acid sequence of a gene, make sure you find the complete CDS(coding sequence) of gene which has a start codon at 5'end and a stop codon in 3'end. Converting non-coded DNA sequence to amino acids is meaningless.
+
+The input of the function should be string form of DNA sequence such as `"ATGGCA"`. Any blank in the sequence will be ignored and input sequence can be lowercase letters.
+
+For example, use `DNAaa()` to convert Rhodococcus sp. heroin esterase (her) gene, complete cds to amino acid sequence:
+```
+DNAaa("ATGACAACATTCCCCACTCTCGACCCCGAACTCGCCGCAGCGCTCACCATGCTCCCGAAGGTGGACTTCGCTGACCTCCC
+CAACGCGCGGGCCACCTACGACGCTCTGATCGGCGCCATGTTGGCCGACCTGTCATTCGACGGAGTCTCGCTTCGTGAAC
+TGTCCGCTCCTGGCCTGGACGGCGATCCGGAGGTCAAGATTCGTTTCGTCACCCCGGACAACACCGCCGGCCCTGTCCCC
+GTTCTGCTCTGGATCCACGGCGGCGGATTCGCAATCGGCACCGCAGAGTCCAGCGATCCATTTTGTGTCGAGGTAGCGCG
+CGAACTCGGATTCGCCGTTGCAAACGTGGAGTACCGCCTCGCCCCCGAAACCACCTTTCCCGGCCCCGTCAACGACTGCT
+ACGCAGCACTCCTCTACATCCACGCCCATGCCGAGGAACTGGGAATCGATCCCAGCCGCATCGCAGTGGGGGGAGAGAGT
+GCAGGCGGCGGATTGGCCGCAGGCACTGTCCTCAAAGCCCGCGACGAGGGCGTTGTGCCTGTGGCATTCCAATTCCTCGA
+AATTCCTGAACTCGACGACCGTCTGGAGACGGTCTCGATGACGAACTTCGTCGACACACCGTTGTGGCACCGCCCCAACG
+CCATCCTGTCGTGGAAGTACTACCTCGGCGAGTCGTATTCAGGTCCCGAAGATCCTGACGTCTCCATTTACGCTGCACCG
+TCCCGGGCGACCGACCTCACCGGTCTGCCGCCGACCTACCTGTCCACCATGGAACTCGACCCGCTCCGCGACGAAGGAAT
+CGAATACGCCCTTCGACTGCTGCAAGCGGGAGTCAGCGTCGAATTGCACTCCTTCCCCGGAACCTTTCACGGGTCGGCAC
+TAGTCGCGACCGCAGGGGTCAGAGAAAGAGGTGCCGCGAAGCCTCACTGCGATCCGGAGAGGGTTGCGTTCGCTGTCGCT
+GTCTCG")
+```
+The output will be:
+```
+[1] "gene length = 966 bp"
+[1] "protein sequence =  MTTFPTLDPELAAALTMLPKVDFADLPNARATYDALIGAMLADLSFDGVSLRELSAPGLDGDPEVKIRF
+VTPDNTAGPVPVLLWIHGGGFAIGTAESSDPFCVEVARELGFAVANVEYRLAPETTFPGPVNDCYAALLYIHAHAEELGIDPSRIAVGGESAGG
+GLAAGTVLKARDEGVVPVAFQFLEIPELDDRLETVSMTNFVDTPLWHRPNAILSWKYYLGESYSGPEDPDVSIYAAPSRATDLTGLPPTYLSTM
+ELDPLRDEGIEYALRLLQAGVSVELHSFPGTFHGSALVATAGVRERGAAKPHCDPERVAFAVAVS"
+[1] "number of aa = 322"
+```
+__how does this funtion work?__
+
+At the beginning, the characters in input string will be transformed to uppercase form. Then the unrecognized characters and blanks will be cleared out from the string. Then number of characters of the processed string will be counted by `nchar()`. That result will be the output of `"gene length"`. 
+
+Next step is converting DNA sequence into DNA codons. Firstly, generating a numeric vector starts with 1, ends with the number of characters in string, by 3 
+```
+seq(1,the number of characters,by=3) 
+```
+Then substituting each number to the DNA condons in order 
+```
+sapply(numberic sequence,function(ii)){
+substr(the processed DNA sequence,ii,ii+2)
+}) 
+```
+The output of this step will be corresponding DNA codons.Then the codons will be processed by combination of `for` loop and `if else` conditions to DNA condons' corresponding amino acid codes. 
+
+Finally, the amino acid codes will be pasted together into a single string form which will be the output of `"protein sequence"`. At the same time, the number of amino acids will be counted.
+
+This function has one limitation : there is only one DNA codon table in this function. The other DNA condon tables such as The Vertebrate Mitochondrial Code, The Yeast Mitochondrial Code. They have few differences compared to standard DNA condon table. If you want to convert DNA sequence based on these tables, please do not use this function.
+
+The function can not only show the protein sequence, but also the length of DNA sequence and amino acid sequence.
+
+Further more, the output amino acid sequence can be directly putted into the protein molecular weight calculation function `mw()`
+
+The `mw` function will be introduced in next session
+
+
+
+## Molecular weight predictor
+
+The molecular weight predictor function `mw()` can scan the input amino acid string such as:
+`"RNDBCQEZGHILKMFPSTWYV"`
+Then calculating the theoretical molecular weight based on the [__molecular weight of each amino acid__(hyperlink)](https://www.promega.com/-/media/files/resources/technical-references/amino-acid-abbreviations-and-molecular-weights.pdf) in this peptide sequence and the molecular weight of one water molecular(18.02 Da) will add to the final weight. Only the molecular weight (in unit of Da) of common 21 amino acids "RNDBCQEZGHILKMFPSTWYV" are in this function and the unrecognized amino acid will be count as 110 Da---the average molecular weight of amino acid.
+
+The input is same as the `DNAaa()`, the string of amino acid sequence and the blanks will be ignore. As previous section mentioned, the output amino acid sequence can directly  copy and paste to `mw()` function. For example:
+
+```
+mw("MTTFPTLDPELAAALTMLPKVDFADLPNARATYDALIGAMLADLSFDGVSLRELSAPGLDGDPEVKIRF
+VTPDNTAGPVPVLLWIHGGGFAIGTAESSDPFCVEVARELGFAVANVEYRLAPETTFPGPVNDCYAALLYIHAHAEELGIDPSRIAVGGESAGG
+GLAAGTVLKARDEGVVPVAFQFLEIPELDDRLETVSMTNFVDTPLWHRPNAILSWKYYLGESYSGPEDPDVSIYAAPSRATDLTGLPPTYLSTM
+ELDPLRDEGIEYALRLLQAGVSVELHSFPGTFHGSALVATAGVRERGAAKPHCDPERVAFAVAVS") 
+#the output of DNAaa() of heroin esterase
+```
+The output will be :
+```
+[1] "aa sequence length =  322"
+[1] "Molecular Weight prediction = 40.23 kDa"
+
+```
+
+__How does this function work?__
+
+The `mw()` function is a simple version of `DNAaa()`. Instead of converting DNA sequence to amino acid sequence, it converts amino acid codes to their corresponding molecular weights(in unit of Da). Then all weights will be added up and adding the molecular weight of water (18.2 Da). The final number will be converted to unit of kDa (divide by 1000). 
+
+The predicted molecular weight of input sequence will be shown in unit of kDa. 
+
+Note: The predicted molecular weight is not the actual molecular weight of the protein. This prediction is only for predicting the position of protein band in SDS page or other methods.
+
+
+## Stock solution caculator
+
+
+
+## Bacterial growth OD600 prediction 
+
+The aim of this function is reducing the frequency of OD600 measurement during waiting bacterial culture reaching to induction OD. Function `OD600()` can predict the OD reading of bacterial growth through the time in 37 degree and optimal environment (such as pH) based on the mathematic model [__Gompertz equation__(hyperlink)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC184525/). This function is designed to have two options: accurate=T or accurate=F (the defalut setting is accurate=F). `OD600(ODwan,accurate=F,t0,OD0,t1,OD1)` 
+
+- `ODwan`	__numeric input the OD600 reading you want to reach__
+- `accurate`	__a logical indicating if you want to use defalut bacterial growth parameters__
+- `t0`	__numeric input If accurate=F, it is the incubated time (in minute) of your culture. If accurate =T, it is incubated time (in minute)when you take first OD reading__
+- `OD0`	__numeric input use only when accurate=T. The first OD reading you have taken__
+- `t1`	__numeric input use only when accurate=T. incubated time (in minute) when you take second OD reading__
+- `OD1`	__numeric input use only when accurate=T. The second OD reading you have taken__
+
+In defulat setting, only `ODwan` and `t0` arguments are needs. The input format can be `OD600(ODwan,t0)` or `OD600(ODwan,accurate=F,t0)`. When `accurate=T`, __ALL__ arguments are needed.
+The return value will be the time needed to reach wanted OD600 reading. 
+
+The mathematic model is based on Gompertz equation 
+
+![](https://scontent.flcy1-1.fna.fbcdn.net/v/t1.0-9/15094506_1862896523945836_5580568415228132608_n.jpg?oh=1fbeb9bd3bd238d36277ce92639cb630&oe=58B75935)
+
+- $y$ can be the OD reading
+- $A$ is the asymptote to reach 
+- $\mu m$ is the maximal growth rate
+- $\lambda$ is lag time
+- $t$ is time in minute
+
+There are only three parameters $A$,$\mu m$,$\lambda$.Here is a clear view of these parameters^[The graph is from Zwietering, M. H., Jongenburger, I., Rombouts, F. M., & van 't Riet, K. (1990). Modeling of the Bacterial Growth Curve. Applied and Environmental Microbiology, 56(6), 1875-1881. Figure 1.]:
+
+![](https://scontent.flcy1-1.fna.fbcdn.net/v/t1.0-9/15032086_1862901410612014_1508483901947971802_n.jpg?oh=5751c46118a576a9ce1b07e3cb7ba6d0&oe=58C16EE8)
+
+In default setting (`accurate=F`), the values of these three parameters are based on the E.coli BL21(DE3) batch culture in 37 degree Celsius. When `accurate=T`, these parameters will be calculated by inputted two sets of OD reading and time.
+```
+maxrate<-(OD1-OD0)/(t1-t0)  #max growth rate mu
+l<-OD0-maxrate*t0 # lambda
+```
+`A`will be set as 2.5. 
+
+__Examples__
+
+For `accurate=F`, if your culture is incubated 170 mins and the wanted OD600 is 1.0:
+```
+OD600(1.0,170)
+#[1] "Need 11 Hour 45 min to reach OD 1"
+
+#or
+
+OD600(1.0,accurate=F,170)
+#[1] "Need 11 Hour 45 min to reach OD 1"
+```
+
+For`accurate=T`, if you take OD600 readings when culture is incubated 170 min and 400 min and the OD readings are 0.5 and 0.9:
+
+```
+OD600(1.0,accurate=T,170,0.5,400,0.9)
+#[1] "Need 6 Hour 45 min to reach OD 1"
+```
+
+__How does this function work?__
+
+The first step is converting `ODwan` to time based on Gompertz equation. The invertion of the equation is
+```
+tw<- lambda-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1))
+```
+The value of parameters are depended on `accurate`  logical argument which are mentioned before. The time needs to reach `ODwan` is `tx<- tw-t0`.The output format  depends on vaule of `tx`. If `tx` is over 60, the output format will be hour followed by minute. If 'tx' is less than 60, the output format is minute.  
+
+Although Gompertz equation can predict bacterial growth curve very well, the accuracy of prediction mostly depends on the parameters. The `accurate=T` mode is more accurated than the default mode, but Gompertz equation does not have other essential parameters such as pH, temperature. The aim of this function is not accurate predicting growth curve. It is aimed for roughly predicting the growth and we do not need to constantly measure the OD when we are waiting the culture grows to required OD. 
+
+## Lysis Buffer ingredient calculator
+
+You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(mtcars, 10))
+```
+
+Also a quote using `>`:
+
+> "He who gives up [code] safety for [code] speed deserves neither."
+([via](https://twitter.com/hadleywickham/status/504368538874703872))
