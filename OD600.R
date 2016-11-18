@@ -1,19 +1,19 @@
 #'Bacterial Growth OD600 Predictor 
 #'
-#'This function allows you to predict the OD reading of bacterial culture through the time. The mathematic model of bacterial growth curve is based on Gompertz equation. The function has two options: accurate=T or F.If accurate=F, function will use default bacterial growth parameters. If accurate=T, bacterial growth parameters will be calculated based on input data. 
+#'This function allows you to predict the OD reading of bacterial culture through the time in optimal environment (such as pH). The mathematic model of bacterial growth curve is based on Gompertz equation. The function has two options: accurate=T or F.If accurate=F, function will use default bacterial growth parameters. If accurate=T, bacterial growth parameters will be calculated based on input data. 
 #'
-#' @usage OD600(ODwan,accurate=F,t0,OD0,t1,OD1) #defalut setting
+#' @usage OD600(ODwan,accurate=F,t0,OD0,t1,OD1) #accurate=F is defalut setting
 #'
 #' @param ODwan numeric input the OD600 reading you want to reach
 #' @param accurate a logical indicating if you want to use defalut bacterial growth parameters
-#' @param t0 numeric input If accurate=F, it is the incubated time of your culture. If accurate =T, it is incubated time when you take first OD reading
+#' @param t0 numeric input If accurate=F, it is the incubated time (in minute) of your culture. If accurate =T, it is incubated time (in minute) when you take first OD reading
 #' @param OD0 numeric input use only when accurate=T. The first OD reading you have taken
-#' @param t1 numeric input use only when accurate=T. incubated time when you take second OD reading 
+#' @param t1 numeric input use only when accurate=T. incubated time (in minute) when you take second OD reading 
 #' @param OD1 numeric input use only when accurate=T. The second OD reading you have taken
 #' 
-#' @details The defalut bacterial growth parameters are based on the E.coli BL21(DE3). If your bacteria are not E.coli, the default setting may not match your stiuation. Please make sure chosing accurate=T.
+#' @details The defalut bacterial growth parameters are based on the E.coli BL21(DE3) in 37 degree. If your bacteria are not E.coli, the default setting may not match your stiuation. Please make sure chosing accurate=T.
 #' 
-#' @return The return value will be the timw you need to reach your wanted OD reading
+#' @return The return value will be the time you need to reach your wanted OD reading
 #' @references Zwietering, M. H., Jongenburger, I., Rombouts, F. M., & van 't Riet, K. (1990). Modeling of the Bacterial Growth Curve. Applied and Environmental Microbiology, 56(6), 1875-1881. 
 #' 
 #' @examples 
@@ -34,7 +34,7 @@ OD600<-function(ODwan,accurate,t0,OD0,t1,OD1){ #two options, accurate =T or F
   th<-NULL
   tmin<-NULL
   A<-2.5
-  if(accurate==F){    #if accurate==F, the parameters will be setted
+  if(accurate==F){    #if accurate==F, the parameters will be set
   maxrate<-0.00144
   l<-180
   tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time
