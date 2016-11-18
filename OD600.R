@@ -1,8 +1,8 @@
-#'Bacterial growth OD600 predictor 
+#'Bacterial Growth OD600 Predictor 
 #'
 #'This function allows you to predict the OD reading of bacterial culture through the time. The mathematic model of bacterial growth curve is based on Gompertz equation. The function has two options: accurate=T or F.If accurate=F, function will use default bacterial growth parameters. If accurate=T, bacterial growth parameters will be calculated based on input data. 
 #'
-#' @usage OD600(ODwan,accurate=F,to,OD0,t1,OD1) #defalut setting
+#' @usage OD600(ODwan,accurate=F,t0,OD0,t1,OD1) #defalut setting
 #'
 #' @param ODwan numeric input the OD600 reading you want to reach
 #' @param accurate a logical indicating if you want to use defalut bacterial growth parameters
@@ -13,14 +13,16 @@
 #' 
 #' @details The defalut bacterial growth parameters are based on the E.coli BL21(DE3). If your bacteria are not E.coli, the default setting may not match your stiuation. Please make sure chosing accurate=T.
 #' 
-#' @value The return value will be the timw you need to reach your wanted OD reading
+#' @return The return value will be the timw you need to reach your wanted OD reading
 #' @references Zwietering, M. H., Jongenburger, I., Rombouts, F. M., & van 't Riet, K. (1990). Modeling of the Bacterial Growth Curve. Applied and Environmental Microbiology, 56(6), 1875-1881. 
 #' 
 #' @examples 
 #' OD600(1.0,170)#use default setting which accurate=F
 #' #[1] "Need 11 Hour 45 min to reach OD 1"
+#' 
 #' OD600(1.0,accurate=T,170,0.5,400,0.9) #use accurate=T
 #' #[1] "Need 6 Hour 45 min to reach OD 1"
+#' @export
 
 
 
