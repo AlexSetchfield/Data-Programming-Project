@@ -4,17 +4,17 @@
 #'
 #' @usage OD600(ODwan,accurate=F,t0,OD0,t1,OD1) #accurate=F is defalut setting
 #'
-#' @param ODwan numeric input the OD600 reading you want to reach
+#' @param ODwan a numeric input of the OD600 reading you want to reach
 #' @param accurate a logical indicating if you want to use defalut bacterial growth parameters
-#' @param t0 numeric input If accurate=F, it is the incubated time (in minute) of your culture. If accurate =T, it is incubated time (in minute) when you take first OD reading
-#' @param OD0 numeric input use only when accurate=T. The first OD reading you have taken
-#' @param t1 numeric input use only when accurate=T. incubated time (in minute) when you take second OD reading 
-#' @param OD1 numeric input use only when accurate=T. The second OD reading you have taken
+#' @param t0 a numeric input of time. If accurate=F, it is the incubated time (in minute) of your culture. If accurate =T, it is incubated time (in minute)when you take first OD reading
+#' @param OD0 a numeric input of the first OD reading you have taken which can be used only when accurate=T.
+#' @param t1 a numeric input of incubated time (in minute) when you take second OD reading which can be used only when accurate=T. 
+#' @param OD1 a numeric input of the second OD reading you have take which can be used only when accurate=T.
 #' 
 #' @details The defalut bacterial growth parameters are based on the E.coli BL21(DE3) in 37 degree. If your bacteria are not E.coli, the default setting may not match your stiuation. Please make sure chosing accurate=T.
 #' 
 #' @return The return value will be the time you need to reach your wanted OD reading
-#' @references Zwietering, M. H., Jongenburger, I., Rombouts, F. M., & van 't Riet, K. (1990). Modeling of the Bacterial Growth Curve. Applied and Environmental Microbiology, 56(6), 1875-1881. 
+#' @references Zwietering, M. H., Jongenburger, I., Rombouts, F. M., & Van't Riet, K. (1990). Modeling of the Bacterial Growth Curve. Applied and Environmental Microbiology, 56(6), 1875-1881. 
 #' 
 #' @examples 
 #' OD600(1.0,170)#use default setting which accurate=F

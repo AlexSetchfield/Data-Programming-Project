@@ -1,13 +1,14 @@
 #' DNA to amino acid convertor
 #'
-#' This function allows you to convert DNA sequence of specific gene to amino acid sequence based on standard DNA codon table. The unrecognized DNA condon will be shown as "*" ,and also the stop codon will not be shown in the sequence.Note: make sure the input DNA sequence is complete cds.[the blanks are ignored]
+#' This function allows you to convert DNA sequence of specific gene to amino acid sequence based on standard DNA condon table. The unrecognized DNA condon will be shown as "*" ,and also the stop codon will not be shown in the sequence.Note: make sure the input DNA sequence is complete cds.[the blanks are ignored]
 #'
 #'
-#' @param bpseq   input DNA sequence in form of String(optimally starts with ATG and ends with stop codon in 5'-3' direction)
+#' @param bpseq   a string input of DNA sequence (optimally starts with ATG and ends with stop condon in 5'-3' direction)
 #' @keywords DNA
 #' @export
 #' @examples
-#' DNAaa("GTAATA") #[1] "gene length = 6 bp"
+#' DNAaa("GTAATA")
+#' #[1] "gene length = 6 bp"
 #' #[1] "protein sequence =  VM"
 #' #[1] "number of aa = 2"
 #'
@@ -29,12 +30,12 @@ DNAaa<-function(bpseq){
   m<-gsub(" ","",l)   #clear the blanks
   b<-nchar(m)     #count number of characters in string
   print(paste("gene length =",b,"bp"))  #print the number of characters in string
-  c<-seq(1,b,by=3)    #create a vector with a sequence from 1 to the length of the string, by 3
-  d<-sapply(c,function(ii){     #replace the numeric vector with input string
-    substr(m,ii,ii+2)       #convert the gene sequence to codon
+  c<-seq(1,b,by=3)    #create a vecter with a sequence from 1 to the length of the string, by 3
+  d<-sapply(c,function(ii){     #replace the numberic vector with input string
+    substr(m,ii,ii+2)       #convert the gene sequence to condon
   })
   f<-length(d)     #count the number of codons
-  for (e in e:f){    #convert the codons to amino acids according to standard DNA codon table
+  for (e in e:f){    #convert the condons to amino acids according to standard DNA condon table
     g<-NULL
     if (d[e]=="TTT"){
       g<-"F"
@@ -167,7 +168,7 @@ DNAaa<-function(bpseq){
     } else {
       g<-"*"
     }
-    h<-c(h,g)  #put converted amino acids into string vector
+    h<-c(h,g)  #put convered amino acids into string vector
   }
   j<-paste(h,seq="",collapse="") #paste them together
   k<-gsub(" ","",j) #clear the blanks

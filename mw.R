@@ -1,7 +1,7 @@
 #' Protein Molecular Weight preditor
 #'
 #' This function allows you to calculate the molecular weight of protein based on the molecular weight of each amino acid. The output moluecular weight is in kDa unit.[the blanks will be ignored]
-#' @param ps        amino acid sequence in a string form
+#' @param ps        a string of amino acid sequence 
 #' @keywords protein weight
 #' @export
 #' @examples
