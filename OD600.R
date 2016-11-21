@@ -34,32 +34,32 @@ OD600<-function(ODwan,accurate,t0,OD0,t1,OD1){ #two options, accurate =T or F
   th<-NULL
   tmin<-NULL
   A<-2.5
-  if(accurate==F){    #if accurate==F, the parameters will be set
-  maxrate<-0.00144
-  l<-180
+  if(accurate==F){    #if accurate==F, the parameters will be set as below
+  maxrate<-0.00144   #the maximum growth rate
+  l<-180      #lambda
   tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time
-  tx<-tw-t0
-  if (tx>60){
-    th<-trunc(tx/60)
-    tmin<-tx-th*60
-    print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan))
+  tx<-tw-t0 #minus the time that has been already taken
+  if (tx>60){   #if the remain time is longer than 60 min, the output will be in hour and min 
+    th<-trunc(tx/60)  #hour
+    tmin<-tx-th*60    #min
+    print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan)) #output
   } else{
-    print(paste("Need",round(tx,0),"min to reach OD",ODwan))
+    print(paste("Need",round(tx,0),"min to reach OD",ODwan)) # the remaining time shorter than 60 min, output in mins 
   }
   } else if (accurate==T){    #if accurate==T, the parameters will be calculated by inputted t0,OD0,t1,OD1
-  maxrate<-(OD1-OD0)/(t1-t0)  #maxrate
-  l<-OD0-maxrate*t0
-  tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time
-  tx<-tw-t0
-  if (tx>60){
+  maxrate<-(OD1-OD0)/(t1-t0)  #maxrate is calcualted from provided two sets of OD readings and time (y=ax+b) a=(y1-y0)/(x1-x0)
+  l<-OD0-maxrate*t0     # b= y0-a*x0 the lambda
+  tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time 
+  tx<-tw-t0  # same as before
+  if (tx>60){   
     th<-trunc(tx/60)
     tmin<-tx-th*60
     print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan))
   } else{
     print(paste("Need",round(tx,0),"min to reach OD",ODwan))
-  }
-  } else {   #if accurate is not specified,
-    t0<-accurate
+  } #
+  } else {   #if accurate is not specified, argument t0 <- accurate  
+    t0<-accurate # same as accurate ==F
     maxrate<-0.00144
     l<-180
     tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time
