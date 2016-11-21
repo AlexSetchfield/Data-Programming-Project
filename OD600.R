@@ -1,25 +1,25 @@
-#'Bacterial Growth OD600 Predictor 
+#'Bacterial Growth OD600 Predictor
 #'
-#'This function allows you to predict the OD reading of bacterial culture through the time in optimal environment (such as pH). The mathematic model of bacterial growth curve is based on Gompertz equation. The function has two options: accurate=T or F.If accurate=F, function will use default bacterial growth parameters. If accurate=T, bacterial growth parameters will be calculated based on input data. 
+#'This function allows you to predict the OD reading of bacterial culture through the time in optimal environment (such as pH). The mathematic model of bacterial growth curve is based on Gompertz equation. The function has two options: accurate=T or F.If accurate=F, function will use default bacterial growth parameters. If accurate=T, bacterial growth parameters will be calculated based on input data.
 #'
 #' @usage OD600(ODwan,accurate=F,t0,OD0,t1,OD1) #accurate=F is defalut setting
 #'
 #' @param ODwan a numeric input of the OD600 reading you want to reach
-#' @param accurate a logical indicating if you want to use defalut bacterial growth parameters
-#' @param t0 a numeric input of time. If accurate=F, it is the incubated time (in minute) of your culture. If accurate =T, it is incubated time (in minute)when you take first OD reading
+#' @param accurate a logical indicating if you want to use defalut bacterial growth parameters or not. If the accurate is not specified, t0 cannot be ZERO and ONE.
+#' @param t0 a numeric input of time. If accurate=F, it is the incubated time (in minute) of your culture. If accurate =T, it is incubated time (in minute)when you take first OD reading.
 #' @param OD0 a numeric input of the first OD reading you have taken which can be used only when accurate=T.
-#' @param t1 a numeric input of incubated time (in minute) when you take second OD reading which can be used only when accurate=T. 
+#' @param t1 a numeric input of incubated time (in minute) when you take second OD reading which can be used only when accurate=T.
 #' @param OD1 a numeric input of the second OD reading you have take which can be used only when accurate=T.
-#' 
-#' @details The defalut bacterial growth parameters are based on the E.coli BL21(DE3) in 37 degree. If your bacteria are not E.coli, the default setting may not match your stiuation. Please make sure chosing accurate=T.
-#' 
+#'
+#' @details The defalut bacterial growth parameters are based on the E.coli BL21(DE3) in 37 degree. If your bacteria are not E.coli, the default setting may not match your stiuation. Please make sure chosing accurate=T. NOTICE: If the accurate is not specified, t0 cannot be ZERO and ONE.
+#'
 #' @return The return value will be the time you need to reach your wanted OD reading
-#' @references Zwietering, M. H., Jongenburger, I., Rombouts, F. M., & Van't Riet, K. (1990). Modeling of the Bacterial Growth Curve. Applied and Environmental Microbiology, 56(6), 1875-1881. 
-#' 
-#' @examples 
+#' @references Zwietering, M. H., Jongenburger, I., Rombouts, F. M., & Van't Riet, K. (1990). Modeling of the Bacterial Growth Curve. Applied and Environmental Microbiology, 56(6), 1875-1881.
+#'
+#' @examples
 #' OD600(1.0,170)#use default setting which accurate=F
 #' #[1] "Need 11 Hour 45 min to reach OD 1"
-#' 
+#'
 #' OD600(1.0,accurate=T,170,0.5,400,0.9) #use accurate=T
 #' #[1] "Need 6 Hour 45 min to reach OD 1"
 #' @export
@@ -34,32 +34,33 @@ OD600<-function(ODwan,accurate,t0,OD0,t1,OD1){ #two options, accurate =T or F
   th<-NULL
   tmin<-NULL
   A<-2.5
-  if(accurate==F){    #if accurate==F, the parameters will be set as below
-  maxrate<-0.00144   #the maximum growth rate
-  l<-180      #lambda
+  if(accurate==F){    #if accurate==F, the parameters will be set
+  maxrate<-0.00144
+  l<-180
   tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time
-  tx<-tw-t0 #minus the time that has been already taken
-  if (tx>60){   #if the remain time is longer than 60 min, the output will be in hour and min 
-    th<-trunc(tx/60)  #hour
-    tmin<-tx-th*60    #min
-    print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan)) #output
-  } else{
-    print(paste("Need",round(tx,0),"min to reach OD",ODwan)) # the remaining time shorter than 60 min, output in mins 
-  }
-  } else if (accurate==T){    #if accurate==T, the parameters will be calculated by inputted t0,OD0,t1,OD1
-  maxrate<-(OD1-OD0)/(t1-t0)  #maxrate is calcualted from provided two sets of OD readings and time (y=ax+b) a=(y1-y0)/(x1-x0)
-  l<-OD0-maxrate*t0     # b= y0-a*x0 the lambda
-  tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time 
-  tx<-tw-t0  # same as before
-  if (tx>60){   
+  tx<-tw-t0
+  if (tx>60){
     th<-trunc(tx/60)
     tmin<-tx-th*60
     print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan))
   } else{
     print(paste("Need",round(tx,0),"min to reach OD",ODwan))
-  } #
-  } else {   #if accurate is not specified, argument t0 <- accurate  
-    t0<-accurate # same as accurate ==F
+  }
+  } else if (accurate==T){    #if accurate==T, the parameters will be calculated by inputted t0,OD0,t1,OD1
+  maxrate<-(OD1-OD0)/(t1-t0)  #maxrate
+  l<-OD0-maxrate*t0
+  tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time
+  tx<-tw-t0
+  if (tx>60){
+    th<-trunc(tx/60)
+    tmin<-tx-th*60
+    print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan))
+  } else{
+    print(paste("Need",round(tx,0),"min to reach OD",ODwan))
+  }
+  } else {   #if accurate is not specified,
+
+     t0 <- accurate
     maxrate<-0.00144
     l<-180
     tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #the equation convert OD to time
@@ -70,6 +71,8 @@ OD600<-function(ODwan,accurate,t0,OD0,t1,OD1){ #two options, accurate =T or F
       print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan))
     } else{
       print(paste("Need",round(tx,0),"min to reach OD",ODwan))
-  }
-  }
+    }
+    }
+
+
 }
