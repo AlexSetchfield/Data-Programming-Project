@@ -3,6 +3,7 @@
 #' Calculates the weights required to make solutions based on concentration required, 
 #' volume wanted and molecular weight of chemicals
 #' 
+#'@param chem name of chemical to be calculated
 #' @param conc_wantedmMl concentration required of the chemical used
 #' @param volml volume of the solution wanted
 #' @param formweightgM molecular weight of the chemical used
@@ -16,17 +17,17 @@
 #' conc_wantedmML <- 5
 #' volml <- 25
 #' formweightgM <- 154.25
-#' gram_calc(conc_wantedmML, volml, formweightgM)
+#' gram_calc(chem, conc_wantedmML, volml, formweightgM)
 #' 
 #' @export
 chem <- "DTT"
 conc_wantedmML <- 5
 volml <- 24
 formweightgM <- 154.25
-gram_calc <- function(conc_wantedmML, volml, formweightgM){
+gram_calc <- function(chem, conc_wantedmML, volml, formweightgM){
   grams <- (conc_wantedmML/1000) * (volml/1000) * formweightgM
   return(paste(chem, "=", grams, "g"))
   }
 
-gram_calc(conc_wantedmML, volml, formweightgM)
+
 
