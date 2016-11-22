@@ -11,7 +11,7 @@
 #' @return weight (in g) of the chemical specified required to make the solution to specified concentration
 #' 
 #' @examples 
-#' gram_calc(5, 25, 154.25)
+#' gram_calc("DTT", 5, 25, 154.25)
 #' 
 #' chem <- "DTT"
 #' conc_wantedmML <- 5
