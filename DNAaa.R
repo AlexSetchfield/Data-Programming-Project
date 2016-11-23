@@ -10,7 +10,7 @@
 #' DNAaa("GTAATA")
 #' #[1] "gene length = 6 bp"
 #' #[1] "protein sequence =  VM"
-#' #[1] "number of aa = 2"
+#' #[1] "number of amino acid = 2"
 #'
 #'
 DNAaa<-function(bpseq){
