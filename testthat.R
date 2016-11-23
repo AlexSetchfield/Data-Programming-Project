@@ -24,8 +24,8 @@ expect_equivalent(gram.calc("DTT", 5, 25, 58.44), "DTT = 0.007305 g")
 # OD600() test
 context("OD600tests")
 test_that("OD600test", {
-expect_that(OD600(1.0,accurate = T, 100, 0.3, 200, 0.5), prints_text("Need 6 Hour 40 min to reach OD 1"))
-expect_that(OD600(1.0,accurate = F, 100), prints_text("Need 12 Hour 55 min to reach OD 1"))
+expect_that(OD600(1.0, accurate = T, 100, 0.3, 200, 0.5), prints_text("Need 6 Hour 40 min to reach OD 1"))
+expect_that(OD600(1.0, accurate = F, 100), prints_text("Need 12 Hour 55 min to reach OD 1"))
 })
 
 # lbmasscalc() test
