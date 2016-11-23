@@ -1,7 +1,7 @@
 #' Protein Molecular Weight preditor
 #'
-#' This function allows you to calculate the molecular weight of protein based on the molecular weight of each amino acid. The output moluecular weight is in kDa unit.[the blanks will be ignored]
-#' @param ps        a string of amino acid sequence 
+#' This function allows you to calculate the molecular weight of protein based on the molecular weight of each amino acid. The output moluecular weight is in kDa unit.
+#' @param ps        a string of amino acid sequence (the blanks and numbers will be ignored)
 #' @keywords protein weight
 #' @export
 #' @examples
@@ -17,9 +17,11 @@ mw<-function(ps){
   g<-NULL
   h<-NULL
   j<-NULL
+  k<-NULL
   h<-gsub("\n","",ps)  #clear the unrecognized characters
   j<-gsub(" ","",h) #clear the blanks
-  a<-unlist(strsplit(j,"")) #break the single string into single
+  k<- gsub('[[:digit:]]+', "",j) #delete the numbers
+  a<-toupper(unlist(strsplit(k,""))) #break the single string into single
   b<-length(a)    #count the length of vector
   print(paste("aa sequence length = ",b)) #print the length
   for (i in i:b){          #convert the amino acid to its molecular weight

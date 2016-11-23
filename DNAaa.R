@@ -1,9 +1,9 @@
 #' DNA to amino acid convertor
 #'
-#' This function allows you to convert DNA sequence of specific gene to amino acid sequence based on standard DNA condon table. The unrecognized DNA condon will be shown as "*" ,and also the stop codon will not be shown in the sequence.Note: make sure the input DNA sequence is complete cds.[the blanks are ignored]
+#' This function allows you to convert DNA sequence of specific gene to amino acid sequence based on standard DNA condon table. The unrecognized DNA condon will be shown as "*" ,and also the stop codon will not be shown in the sequence.Note: make sure the input DNA sequence is complete cds.
 #'
 #'
-#' @param bpseq   a string input of DNA sequence (optimally starts with ATG and ends with stop condon in 5'-3' direction)
+#' @param bpseq   a string input of DNA sequence (optimally starts with ATG and ends with stop condon in 5'-3' direction)[the blanks and numbers will be ignored]
 #' @keywords DNA
 #' @export
 #' @examples
@@ -25,10 +25,12 @@ DNAaa<-function(bpseq){
   k<-NULL
   l<-NULL
   m<-NULL
+  n<-NULL
   a<-toupper(bpseq)
   l<-gsub("\n","",a)  #clear the unrecognized characters
   m<-gsub(" ","",l)   #clear the blanks
-  b<-nchar(m)     #count number of characters in string
+  n<-gsub('[[:digit:]]+', "",m) #clear the numbers
+  b<-nchar(n)     #count number of characters in string
   print(paste("gene length =",b,"bp"))  #print the number of characters in string
   c<-seq(1,b,by=3)    #create a vecter with a sequence from 1 to the length of the string, by 3
   d<-sapply(c,function(ii){     #replace the numberic vector with input string
