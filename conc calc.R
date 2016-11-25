@@ -3,7 +3,7 @@
 #' Calculates the weights required to make solutions based on concentration required, 
 #' volume wanted and molecular weight of chemicals
 #' 
-#'@param chem name of chemical to be calculated
+#' @param chem name of chemical to be calculated
 #' @param conc.wantedmMl concentration required of the chemical used
 #' @param volml volume of the solution wanted
 #' @param formweightgM molecular weight of the chemical used
