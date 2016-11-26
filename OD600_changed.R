@@ -1,6 +1,6 @@
 #'Bacterial Growth OD600 Predictor
 #'
-#'This function allows you to predict the OD reading of bacterial culture through the time in optimal environment (such as pH). The mathematic model of bacterial growth curve is based on Gompertz equation. The function has two options: accurate=T or F.If accurate=F, function will use default bacterial growth parameters. If accurate=T, bacterial growth parameters will be calculated based on input data.
+#'This function allows you to predict the OD reading of bacterial culture through the time in optimal environment (such as pH and enough nutritions). The mathematic model of bacterial growth curve is based on Gompertz equation. The function has two options: accurate=T or F.If accurate=F, function will use default bacterial growth parameters. If accurate=T, bacterial growth parameters will be calculated based on input data.
 #'
 #' @usage OD600(ODwan,accurate=F,t0,OD0,t1,OD1) #accurate=F is defalut setting
 #'
