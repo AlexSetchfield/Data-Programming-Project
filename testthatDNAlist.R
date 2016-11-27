@@ -30,6 +30,9 @@ test_that("OD600 test output", {
   expect_that(OD600(1.0, accurate = T, 100, 0.3, 200, 0.5), prints_text("Need 6 Hour 40 min to reach OD 1"))
   expect_that(OD600(1.0, accurate = F, 100), prints_text("Need 12 Hour 55 min to reach OD 1"))
   expect_that(OD600(1.0, 100), prints_text("Need 12 Hour 55 min to reach OD 1"))
+  expect_that(OD600(1.0, 100000), prints_text("According to mathematic model, the OD600 of your culture is 2.5","According to mathematic model, the OD600 of your culture is 2.5"))
+  expect_that(OD600(1.0,accurate = F, 100000), prints_text("According to mathematic model, the OD600 of your culture is 2.5","According to mathematic model, the OD600 of your culture is 2.5"))
+  expect_that(OD600(1.0,accurate=T,100,3,120,3.5), prints_text("The calculated time is negative, please enter the correct data"))
 })
 
 # lbmasscalc() test
