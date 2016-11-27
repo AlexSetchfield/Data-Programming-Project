@@ -3,6 +3,7 @@
 #' This function allows you to calculate the molecular weight of protein based on the molecular weight of each amino acid. The output molecular weight is in kDa unit.
 #' @param ps a string of amino acid sequence (blanks and numbers will be ignored)
 #' @keywords protein weight
+#' @return print the predicted molecular weight and the number of amino acids 
 #' @export
 #' @examples
 #'mw("RNBC")
