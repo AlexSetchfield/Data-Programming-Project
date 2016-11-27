@@ -1,6 +1,6 @@
 #' Lysis Buffer Calculations (Mass)
 #'
-#' Calculates the mass (g) required for constituents of lysis buffer, based on concentrations (mM), molecular weights (Mr) and final volume (ml).
+#' Calculates the mass (g) required for constituents of lysis buffer, based on concentrations (mM), molecular weights and final volume (ml).
 #'
 #' @param TrisHCl.conc
 #' Concentration of Tris-HCl (mM) required
