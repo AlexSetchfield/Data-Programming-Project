@@ -35,21 +35,18 @@ OD600<-function(ODwan,accurate,t0,OD0,t1,OD1){ #two options, accurate =T or accu
   tmin<-NULL
   ODx<-NULL
   A<-2.5
-  if(accurate==F){    #if accurate==F, the parameters will be set
-      OD0<-F
-      t1<-F
-      OD1<-F
-      maxrate<-0.00144
-      l<-180
-      tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #this equation converts OD to time
-      tx<-tw-t0
-      if (tx>60){
+  if(accurate==F){    #if accurate==F, the parameters are set
+      maxrate<-0.00144     #mu_max, the max growth rate 
+      l<-180               #lambda 
+      tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #this equation converts OD to time in min
+      tx<-tw-t0      #the required time to reach ODwan
+      if (tx>60){      # if the time is over 60, output will be hour and min      
         th<-trunc(tx/60)
         tmin<-tx-th*60
         print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan))
-      } else if (tx>=0 & tx <60){
+      } else if (tx>=0 & tx <60){      #below 60, output in min
         print(paste("Need",round(tx,0),"min to reach OD",ODwan))
-      } else if (tx<0){
+      } else if (tx<0){    #if the time is negative, output a warning message
 
         ODx<-A*exp(-exp(maxrate*exp(1)*(l-t0)/A+1))
         print(paste("Your culture has already achieved OD",ODwan,", ",round(-tx,0),"mins ago"))
@@ -63,7 +60,7 @@ OD600<-function(ODwan,accurate,t0,OD0,t1,OD1){ #two options, accurate =T or accu
   tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #this equation converts OD to time
   tx<-tw-t0
   if (tx>60){
-    th<-trunc(tx/60)
+    th<-trunc(tx/60)  
     tmin<-tx-th*60
     print(paste("Need",th,"Hour",round(tmin,0),"min to reach OD",ODwan))
   } else if (tx>=0 & tx <60){
@@ -73,7 +70,7 @@ OD600<-function(ODwan,accurate,t0,OD0,t1,OD1){ #two options, accurate =T or accu
   }
   } else if (!accurate==T|F){   #if accurate is not specified
 
-    t0 <- accurate
+       t0 <- accurate
        maxrate<-0.00144
        l<-180
        tw<-l-(A*log(-log(ODwan/A))-A)/(maxrate*exp(1)) #this equation converts OD to time
