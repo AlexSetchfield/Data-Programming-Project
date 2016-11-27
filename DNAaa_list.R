@@ -52,7 +52,7 @@ DNAaa<-function(bpseq){
     substr(n,ii,ii+2)       #convert the gene sequence to codon
   })
   f<-length(d)     #count the number of codons
-  for (e in e:f){    #convert the codons to amino acids according to standard DNA condon table
+  for (e in e:f){    #convert the codons to amino acids according to standard DNA codon table
     g<-NULL
     if (d[e]=="TTT"){
       g<-"F"
