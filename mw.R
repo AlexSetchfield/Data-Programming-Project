@@ -1,13 +1,13 @@
-#' Protein Molecular Weight preditor
+#' Protein Molecular Weight Predictor
 #'
-#' This function allows you to calculate the molecular weight of protein based on the molecular weight of each amino acid. The output moluecular weight is in kDa unit.
-#' @param ps        a string of amino acid sequence (the blanks and numbers will be ignored)
+#' This function allows you to calculate the molecular weight of protein based on the molecular weight of each amino acid. The output molecular weight is in kDa unit.
+#' @param ps a string of amino acid sequence (blanks and numbers will be ignored)
 #' @keywords protein weight
 #' @export
 #' @examples
 #'mw("RNBC")
 #'  #[1]"aa sequence length =  4"
-#'  #[1]"Molecular Weight roughly = 0.58 kDa"
+#'  #[1]"Molecular weight prediction = 0.58 kDa"
 mw<-function(ps){
   a<-NULL
   b<-NULL
@@ -18,13 +18,13 @@ mw<-function(ps){
   h<-NULL
   j<-NULL
   k<-NULL
-  h<-gsub("\n","",ps)  #clear the unrecognized characters
+  h<-gsub("\n","",ps)  #clear the unrecognised characters
   j<-gsub(" ","",h) #clear the blanks
   k<- gsub('[[:digit:]]+', "",j) #delete the numbers
-  a<-toupper(unlist(strsplit(k,""))) #break the single string into single
+  a<-toupper(unlist(strsplit(k,""))) #break the single string into single characters
   b<-length(a)    #count the length of vector
   print(paste("aa sequence length = ",b)) #print the length
-  for (i in i:b){          #convert the amino acid to its molecular weight
+  for (i in i:b){          #convert amino acids to their molecular weights
     d<-NULL
     e<-NULL
     d<-a[i]
@@ -77,7 +77,7 @@ mw<-function(ps){
     }
     f<-f+e      #count the total weight
   }
-  g<-round((f+18.2)/1000,2)    #add the weight of water molecule and converts to kDa....round the final number
-  print(paste("Molecular Weight prediction =",g,"kDa"))
+  g<-round((f+18.2)/1000,2)    #add the weight of water molecule and convert to kDa....round the final number
+  print(paste("Molecular weight prediction =",g,"kDa"))
 }
 
