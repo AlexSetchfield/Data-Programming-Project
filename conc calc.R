@@ -1,6 +1,6 @@
-#' Function for calculating weights of chemicals in solutions
+#' Function for calculating the mass of chemicals in solutions
 #' 
-#' Calculates the weights required to make solutions based on concentration required, 
+#' Calculates the mass required to make solutions based on concentration required, 
 #' volume wanted and molecular weight of chemicals
 #' 
 #' @param chem name of chemical to be calculated
@@ -8,7 +8,7 @@
 #' @param volml volume of the solution wanted
 #' @param formweightgM molecular weight of the chemical used
 #' 
-#' @return weight (in g) of the chemical specified required to make the solution to specified concentration
+#' @return mass (in g) of the chemical specified required to make the solution to a specified concentration
 #' 
 #' @examples 
 #' gram.calc("DTT", 5, 25, 154.25)
