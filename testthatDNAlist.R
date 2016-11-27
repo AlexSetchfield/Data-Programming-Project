@@ -13,9 +13,9 @@ expect_that(DNAlist$aa_seq, equals("VH"))
 # mw() test
 context("mwtests")
 test_that("mw test cases", {
-  expect_that(mw("VH"), prints_text("aa sequence length =  2", "Molecular Weight prediction = 0.29 kDa"))
-  expect_that(mw("vh"), prints_text("aa sequence length =  2", "Molecular Weight prediction = 0.29 kDa"))
-  expect_that(mw("123vh"), prints_text("aa sequence length =  2", "Molecular Weight prediction = 0.29 kDa"))
+  expect_that(mw("VH"), prints_text("aa sequence length =  2", "Molecular weight prediction = 0.29 kDa"))
+  expect_that(mw("vh"), prints_text("aa sequence length =  2", "Molecular weight prediction = 0.29 kDa"))
+  expect_that(mw("123vh"), prints_text("aa sequence length =  2", "Molecular weight prediction = 0.29 kDa"))
 })
 
 # gram.calc() test
